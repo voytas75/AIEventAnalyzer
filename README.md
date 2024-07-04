@@ -1,4 +1,4 @@
-# Start-AIEventAnalyzer
+# AI Event Analyzer
 
 [![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/Start-AIEventAnalyzer)](https://www.powershellgallery.com/packages/Start-AIEventAnalyzer)
 
