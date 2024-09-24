@@ -7,7 +7,7 @@
 > You never know what you're gonna get with an AI, just like a box of chocolates. You might get a whiz-bang algorithm that writes you a symphony in five minutes flat, or you might get a dud that can't tell a cat from a couch. But hey, that's the beauty of it all, you keep feedin' it data and see what kind of miraculous contraption it spits out next.
 
 This PowerShell script, `Start-AIEventAnalyzer.ps1`, is designed to analyze Windows event logs using AI. It prompts the user to select an action, a log to analyze, the severity level of the events, and the number of most recent events to analyze. The script then invokes an AI model to analyze the selected events and logs the results.
-This script utilizes the [PSAOAI](../PSAOAI/README.md) ([PowerShell Gallery](https://www.powershellgallery.com/packages/PSAOAI/)) module, which contains functions essential for the operation of the AIEventAnalyzer.
+This script utilizes the [PSAOAI](https://github.com/voytas75/PSAOAI) ([PowerShell Gallery](https://www.powershellgallery.com/packages/PSAOAI/)) module, which contains functions essential for the operation of the AIEventAnalyzer.
 
 ## Using AI for Dynamic Event Data Analysis
 
@@ -34,7 +34,7 @@ This dynamic approach allows the AI to provide a wide range of analyses and insi
 
 Before running the `Start-AIEventAnalyzer.ps1` script, you need to set up your environment to use Azure OpenAI. Here are the steps to follow:
 
-1. **PSAOAI module**: Install [PSAOAI](../PSAOAI/README.md) ([PowerShell Gallery](https://www.powershellgallery.com/packages/PSAOAI/)) module.
+1. **PSAOAI module**: Install [PSAOAI](https://github.com/voytas75/PSAOAI) ([PowerShell Gallery](https://www.powershellgallery.com/packages/PSAOAI/)) module.
    
    ```powershell
    Install-Module -Name PSAOAI
