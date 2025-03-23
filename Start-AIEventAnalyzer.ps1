@@ -962,6 +962,7 @@ function Format-ContinuousText {
   param (
     # The text parameter is mandatory and should be a string
     [Parameter(Mandatory = $true)]
+    [AllowEmptyString()]    
     [string]$text
   )
 
@@ -971,13 +972,12 @@ function Format-ContinuousText {
   # The `-replace` operator is used to replace all newline characters with a space.
   # The result is returned as the output of the function.
 
-  if (![string]::IsNullOrEmpty($text)) {
-    $text = $text -replace "`r`n", " " # Replace carriage return and newline characters
-    return $text -replace "`n", " " # Replace newline characters
-  }
-  else {
+  if ([string]::IsNullOrEmpty($text)) {
     return ""
   }
+
+  $text = $text -replace "`r`n", " "
+  return $text -replace "`n", " "
 }
 function Update-PromptData {
   <#
