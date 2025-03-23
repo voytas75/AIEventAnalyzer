@@ -40,6 +40,10 @@
 .DESCRIPTION
  Analyze Windows event logs using AZURE OpenAI (PSAOAI Module).
 
+.LINK
+ https://www.powershellgallery.com/packages/Start-AIEventAnalyzer
+ https://www.powershellgallery.com/packages/PSAOAI
+
  #>
 using namespace System.Diagnostics
  
