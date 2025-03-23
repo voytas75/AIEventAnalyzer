@@ -25,7 +25,7 @@
 .EXTERNALSCRIPTDEPENDENCIES
 
 .RELEASENOTES
-  1.2 - Enhanced Format-ContinuousText, Updated project GitHub link - new repo site, updated. 
+  1.2 - Enhanced Format-ContinuousText, Updated project GitHub link - new repo site, polish and smooth changes. 
   1.1 - add check update (#15), Stream response as default (not-Stream in generating prompts only), fix filtering events by serveritylevel.
   1.0 - initializing
 
