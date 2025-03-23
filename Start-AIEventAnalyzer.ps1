@@ -1152,7 +1152,7 @@ Clear-Host
 Show-Banner
 
 # Check for updates as the first task
-Check-ForUpdate -currentVersion "1.1" -scriptName "Start-AIEventAnalyzer"
+Check-ForUpdate -currentVersion "1.2" -scriptName "Start-AIEventAnalyzer"
 
 $moduleName = "PSAOAI"
 if (Get-Module -ListAvailable -Name $moduleName) {
