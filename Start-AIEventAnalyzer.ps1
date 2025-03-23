@@ -1079,7 +1079,7 @@ function Show-Banner {
                                                                        |___/              
                                                                   powered by PSAOAI Module
        
-       voytas75; https://github.com/voytas75/AzureOpenAI-PowerShell
+       voytas75; https://github.com/voytas75/AIEventAnalyzer
 
 '@
   Write-Host @"
