@@ -25,7 +25,7 @@
 .EXTERNALSCRIPTDEPENDENCIES
 
 .RELEASENOTES
-  UNPUBLISHED 1.3 - typos
+  UNPUBLISHED 1.3 - typos, Renamed Check-ForUpdate function to Test-ForUpdate.
   1.2 - Enhanced Format-ContinuousText, Updated project GitHub link - new repo site, polish and smooth changes. 
   1.1 - add check update (#15), Stream response as default (not-Stream in generating prompts only), fix filtering events by serveritylevel.
   1.0 - initializing
@@ -1135,7 +1135,7 @@ function Get-LatestVersion {
 }
 
 # Function to check for updates
-function Check-ForUpdate {
+function Test-ForUpdate {
   param (
     [string]$currentVersion,
     [string]$scriptName
@@ -1159,7 +1159,7 @@ Clear-Host
 Show-Banner
 
 # Check for updates as the first task
-Check-ForUpdate -currentVersion "1.3" -scriptName "Start-AIEventAnalyzer"
+Test-ForUpdate -currentVersion "1.3" -scriptName "Start-AIEventAnalyzer"
 
 $moduleName = "PSAOAI"
 if (Get-Module -ListAvailable -Name $moduleName) {
