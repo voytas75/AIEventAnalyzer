@@ -34,6 +34,8 @@
 #>
 
 <#
+.SYNOPSIS
+ Analyzes Windows event logs using Azure OpenAI via the PSAOAI Module, providing insights, troubleshooting, correlation, prediction, optimization, auditing, automation suggestions, educational content, documentation, or summaries based on user-selected actions and event severity levels.
 
 .DESCRIPTION
  Analyze Windows event logs using AZURE OpenAI (PSAOAI Module).
