@@ -1,6 +1,6 @@
 <#PSScriptInfo
 
-.VERSION 1.2
+.VERSION 1.3
 
 .GUID 4ff39349-66db-44eb-a12f-eb4249b0f24b
 
@@ -25,6 +25,7 @@
 .EXTERNALSCRIPTDEPENDENCIES
 
 .RELEASENOTES
+  UNPUBLISHED 1.3 - typos
   1.2 - Enhanced Format-ContinuousText, Updated project GitHub link - new repo site, polish and smooth changes. 
   1.1 - add check update (#15), Stream response as default (not-Stream in generating prompts only), fix filtering events by serveritylevel.
   1.0 - initializing
@@ -1146,7 +1147,7 @@ function Check-ForUpdate {
   if ($latestVersion) {
     # Compare versions
     if ([version]$currentVersion -lt [version]$latestVersion) {
-      Write-Host " A new version ($latestVersion) of $scriptName is available. You are currently using version $currentVersion. `n`n" -BackgroundColor DarkYellow -ForegroundColor Blue
+      Write-Host " A new version ($latestVersion) of $scriptName is available. You are currently using version $currentVersion. Use: 'Update-Script Start-AIEventAnalyzer' `n`n" -BackgroundColor DarkYellow -ForegroundColor Blue
     } 
   }
   else {
@@ -1158,12 +1159,12 @@ Clear-Host
 Show-Banner
 
 # Check for updates as the first task
-Check-ForUpdate -currentVersion "1.2" -scriptName "Start-AIEventAnalyzer"
+Check-ForUpdate -currentVersion "1.3" -scriptName "Start-AIEventAnalyzer"
 
 $moduleName = "PSAOAI"
 if (Get-Module -ListAvailable -Name $moduleName) {
   [void](Import-module -name PSAOAI -Force)
 }
 else {
-  Write-Host "You need to install '$moduleName' module. USe: 'Install-Module PSAOAI'"
+  Write-Host "You need to install '$moduleName' module. Use: 'Install-Module PSAOAI'"
 }
