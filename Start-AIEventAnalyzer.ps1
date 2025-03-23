@@ -1014,7 +1014,7 @@ This example updates the $promptTroubleshoot variable.
   $experiencedProfessionalsText = "Ensure that the response is comprehensive and detailed, providing in-depth insights."
   
   # Text for less experienced professionals
-  $lessExperiencedProfessionalsText = "Make sure the analysis is easy to understand, with clear explanations and step-by-step instructions."
+  #$lessExperiencedProfessionalsText = "Make sure the analysis is easy to understand, with clear explanations and step-by-step instructions."
 
   # Combine the input prompt with the additional instructions
   $updatedPrompt = $inputPrompt + " " + $experiencedProfessionalsText
