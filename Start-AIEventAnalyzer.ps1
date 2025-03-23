@@ -1,6 +1,6 @@
 <#PSScriptInfo
 
-.VERSION 1.1
+.VERSION 1.2
 
 .GUID 4ff39349-66db-44eb-a12f-eb4249b0f24b
 
@@ -25,7 +25,7 @@
 .EXTERNALSCRIPTDEPENDENCIES
 
 .RELEASENOTES
-unpublished - new repo site.
+  1.2 - Enhanced Format-ContinuousText, Updated project GitHub link - new repo site, updated. 
   1.1 - add check update (#15), Stream response as default (not-Stream in generating prompts only), fix filtering events by serveritylevel.
   1.0 - initializing
 
