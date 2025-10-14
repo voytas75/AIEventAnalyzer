@@ -14,13 +14,13 @@ This script utilizes the [PSAOAI](https://github.com/voytas75/PSAOAI) ([PowerShe
 Install the script from the PowerShell Gallery so it is available system-wide:
 
 ```powershell
-Install-Script Start-AIEventAnalyzer
+Install-Script Start-AIEventAnalyzer -Force
 ```
 
 When a new version is published, update your existing installation with:
 
 ```powershell
-Update-Script Start-AIEventAnalyzer
+Update-Script Start-AIEventAnalyzer -Force
 ```
 
 If you prefer to run the script directly after downloading it, dot-source it with the full path before calling `Start-AIEventAnalyzer`.
