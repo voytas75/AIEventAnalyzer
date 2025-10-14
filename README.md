@@ -9,26 +9,35 @@
 This PowerShell script, `Start-AIEventAnalyzer.ps1`, is designed to analyze Windows event logs using AI. It prompts the user to select an action, a log to analyze, the severity level of the events, and the number of most recent events to analyze. The script then invokes an AI model to analyze the selected events and logs the results.
 This script utilizes the [PSAOAI](https://github.com/voytas75/PSAOAI) ([PowerShell Gallery](https://www.powershellgallery.com/packages/PSAOAI/)) module, which contains functions essential for the operation of the AIEventAnalyzer.
 
-## Using AI for Dynamic Event Data Analysis
+## Installation & Updates
 
-The `Start-AIEventAnalyzer.ps1` script uses AI to dynamically analyze event data in various ways. The user is prompted to select an action from the following options:
+Install the script from the PowerShell Gallery so it is available system-wide:
 
-- **Analyze**: The AI will analyze the event data and provide insights.
-- **Troubleshoot**: The AI will identify potential issues and suggest solutions.
-- **Correlate**: The AI will find correlations between different events.
-- **Predict**: The AI will predict future events based on the current data.
-- **Optimize**: The AI will suggest optimizations based on the event data.
-- **Audit**: The AI will audit the event data for any anomalies or discrepancies.
-- **Automate**: The AI will suggest ways to automate tasks based on the event data.
-- **Educate**: The AI will provide educational content related to the event data.
-- **Documentation**: The AI will generate documentation based on the event data.
-- **Summarize**: The AI will summarize the key points from the event data.
+```powershell
+Install-Script Start-AIEventAnalyzer
+```
 
-The chosen action determines the main prompt for the AI. This main prompt then generates sub-prompts that guide the AI in performing the selected action. The AI's responses to these sub-prompts provide the desired analysis, troubleshooting, correlation, prediction, optimization, audit, automation, education, documentation, or summary of the event data.
+When a new version is published, update your existing installation with:
 
-This dynamic approach allows the AI to provide a wide range of analyses and insights, tailored to the user's specific needs and the unique characteristics of the event data.
+```powershell
+Update-Script Start-AIEventAnalyzer
+```
 
-![image](../images/AIEventAnalyzer.gif)
+If you prefer to run the script directly after downloading it, dot-source it with the full path before calling `Start-AIEventAnalyzer`.
+
+For example, if you downloaded the script to `C:\Scripts\Start-AIEventAnalyzer.ps1`, open PowerShell in that folder and run:
+
+```powershell
+. .\Start-AIEventAnalyzer.ps1
+Start-AIEventAnalyzer
+```
+
+Or, from any directory, dot-source it using the full path:
+
+```powershell
+. "C:\Scripts\Start-AIEventAnalyzer.ps1"
+Start-AIEventAnalyzer
+```
 
 ## Prerequisites
 
@@ -50,6 +59,27 @@ Before running the `Start-AIEventAnalyzer.ps1` script, you need to set up your e
     - `API_AZURE_OPENAI_ENDPOINT`: This should be set to the endpoint URL of the Azure OpenAI Service. Typically, it is in the format `https://<RESOURCE_NAME>.openai.azure.com`.
     - `API_AZURE_OPENAI_DEPLOYMENT`: The deployment name is used to call the model. We recommend using GPT-4 or GPT-4-preview for optimal results.
     - `API_AZURE_OPENAI_APIVERSION `: Version of Azure OpenAI API. <https://learn.microsoft.com/en-us/azure/ai-services/openai/api-version-deprecation>
+
+## Using AI for Dynamic Event Data Analysis
+
+The `Start-AIEventAnalyzer.ps1` script uses AI to dynamically analyze event data in various ways. The user is prompted to select an action from the following options:
+
+- **Analyze**: The AI will analyze the event data and provide insights.
+- **Troubleshoot**: The AI will identify potential issues and suggest solutions.
+- **Correlate**: The AI will find correlations between different events.
+- **Predict**: The AI will predict future events based on the current data.
+- **Optimize**: The AI will suggest optimizations based on the event data.
+- **Audit**: The AI will audit the event data for any anomalies or discrepancies.
+- **Automate**: The AI will suggest ways to automate tasks based on the event data.
+- **Educate**: The AI will provide educational content related to the event data.
+- **Documentation**: The AI will generate documentation based on the event data.
+- **Summarize**: The AI will summarize the key points from the event data.
+
+The chosen action determines the main prompt for the AI. This main prompt then generates sub-prompts that guide the AI in performing the selected action. The AI's responses to these sub-prompts provide the desired analysis, troubleshooting, correlation, prediction, optimization, audit, automation, education, documentation, or summary of the event data.
+
+This dynamic approach allows the AI to provide a wide range of analyses and insights, tailored to the user's specific needs and the unique characteristics of the event data.
+
+![image](../images/AIEventAnalyzer.gif)
 
 ## Syntax
 

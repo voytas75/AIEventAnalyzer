@@ -25,7 +25,8 @@
 .EXTERNALSCRIPTDEPENDENCIES
 
 .RELEASENOTES
-  UNPUBLISHED 1.3 - typos, Renamed Check-ForUpdate function to Test-ForUpdate.
+  UNPUBLISHED 1.4 - n/a
+  1.3 - typos, Renamed Check-ForUpdate function to Test-ForUpdate, remove clearhost, add quit mode, detect whether the script is installed.
   1.2 - Enhanced Format-ContinuousText, Updated project GitHub link - new repo site, polish and smooth changes. 
   1.1 - add check update (#15), Stream response as default (not-Stream in generating prompts only), fix filtering events by serveritylevel.
   1.0 - initializing
@@ -390,23 +391,39 @@ Example of a JSON response with two records:
   $prompts = @($promptAnalyze, $promptTroubleshoot, $promptCorrelate, $promptPredict, $promptOptimize, $promptAudit, $promptAutomate, $promptEducate, $promptDocumentation, $promptSummarize)
   
   if (-not $Action) {
+    $selection = $null
     do {
       # Display the list of actions to the user
       Write-Host "Please choose an action for Windows events:" -ForegroundColor DarkCyan
+      Write-Host "0. Quit" -ForegroundColor Cyan
       for ($i = 0; $i -lt $actions.Length; $i++) {
         Write-Host "$($i+1). $($actions[$i])" -ForegroundColor Cyan
       }
       Write-Host ""
   
       # Ask the user to choose an action
-      Write-Host "Enter the number of your chosen action (default: 1 - Analyze)" -ForegroundColor DarkCyan -NoNewline
+      Write-Host "Enter the number of your chosen action (default: 1 - Analyze, or 0 to quit)" -ForegroundColor DarkCyan -NoNewline
       $chosenActionIndex = Read-Host " "
       if ([string]::IsNullOrEmpty($chosenActionIndex)) {
-        $chosenActionIndex = 1
+        $selection = 1
         break
       }
+      if ($chosenActionIndex -notmatch '^\d+$') {
+        Write-Host "Please enter a valid number." -ForegroundColor Yellow
+        continue
+      }
+
+      $selection = [int]$chosenActionIndex
+      if ($selection -eq 0) {
+        Write-Host "Exiting at user request." -ForegroundColor Yellow
+        return
+      }
       # Validate the user's input
-    } while ($chosenActionIndex -notmatch '^\d+$' -or [int]$chosenActionIndex -lt 1 -or [int]$chosenActionIndex -gt $actions.Length)
+      if ($selection -lt 1 -or $selection -gt $actions.Length) {
+        Write-Host "Please choose a number between 1 and $($actions.Length)." -ForegroundColor Yellow
+      }
+    } while ($selection -lt 1 -or $selection -gt $actions.Length)
+    $chosenActionIndex = $selection
     Write-Verbose $chosenActionIndex
 
     # Get the chosen action and corresponding prompt
@@ -1081,7 +1098,7 @@ function Show-Banner {
           /  \    | | | |____   _____ _ __ | |_   /  \   _ __   __ _| |_   _ _______ _ __ 
          / /\ \   | | |  __\ \ / / _ \ '_ \| __| / /\ \ | '_ \ / _` | | | | |_  / _ \ '__|
         / ____ \ _| |_| |___\ V /  __/ | | | |_ / ____ \| | | | (_| | | |_| |/ /  __/ |   
-       /_/    \_\_____|______\_/ \___|_| |_|\__/_/    \_\_| |_|\__,_|_|\__, /___\___|_|1.2   
+       /_/    \_\_____|______\_/ \___|_| |_|\__/_/    \_\_| |_|\__,_|_|\__, /___\___|_|1.3   
                                                                         __/ |             
                                                                        |___/              
                                                                   powered by PSAOAI Module
@@ -1108,11 +1125,34 @@ function Show-Banner {
 
 "@ -ForegroundColor DarkYellow
 
-  Write-Host @"
-       To start type 'Start-AIEventAnalyzer'
+  $scriptName = "Start-AIEventAnalyzer"
+  $scriptPathHint = if ($PSCommandPath) { $PSCommandPath } else { Join-Path -Path (Get-Location).Path -ChildPath "$scriptName.ps1" }
+  $isInstalled = $false
 
+  if (Get-Command -Name Get-InstalledScript -ErrorAction SilentlyContinue) {
+    try {
+      if (Get-InstalledScript -Name $scriptName -ErrorAction Stop) {
+        $isInstalled = $true
+      }
+    }
+    catch {
+      $isInstalled = $false
+    }
+  }
 
-"@ -ForegroundColor White
+  if ($isInstalled) {
+    Write-Host "       To start type 'Start-AIEventAnalyzer'" -ForegroundColor White
+  }
+  else {
+    Write-Host "       Script not installed. Load it with the full path and then run it:" -ForegroundColor White
+    Write-Host ("       . `"{0}`"" -f $scriptPathHint) -ForegroundColor White
+    Write-Host "       Then run 'Start-AIEventAnalyzer'" -ForegroundColor White
+    Write-Host ""
+    Write-Host "       Tip: Install it from the PowerShell Gallery for easier use:" -ForegroundColor White
+    Write-Host "       Install-Script Start-AIEventAnalyzer" -ForegroundColor White
+  }
+
+  Write-Host ""
 }
 
 # Function to get the latest version from the PowerShell Gallery
@@ -1147,7 +1187,20 @@ function Test-ForUpdate {
   if ($latestVersion) {
     # Compare versions
     if ([version]$currentVersion -lt [version]$latestVersion) {
-      Write-Host " A new version ($latestVersion) of $scriptName is available. You are currently using version $currentVersion. Use: 'Update-Script Start-AIEventAnalyzer' `n`n" -BackgroundColor DarkYellow -ForegroundColor Blue
+      $scriptInstalled = $false
+      if (Get-Command -Name Get-InstalledScript -ErrorAction SilentlyContinue) {
+        try {
+          if (Get-InstalledScript -Name $scriptName -ErrorAction Stop) {
+            $scriptInstalled = $true
+          }
+        }
+        catch {
+          $scriptInstalled = $false
+        }
+      }
+
+      $recommendedCommand = if ($scriptInstalled) { "Update-Script $scriptName -Force" } else { "Install-Script $scriptName -Force" }
+      Write-Host (" A new version ({0}) of {1} is available. You are currently using version {2}. Use: '{3}' `n`n" -f $latestVersion, $scriptName, $currentVersion, $recommendedCommand) -BackgroundColor DarkYellow -ForegroundColor Blue
     } 
   }
   else {
@@ -1155,7 +1208,7 @@ function Test-ForUpdate {
   }
 }
 
-Clear-Host
+#Clear-Host
 Show-Banner
 
 # Check for updates as the first task
