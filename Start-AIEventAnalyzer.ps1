@@ -1212,7 +1212,7 @@ function Test-ForUpdate {
 Show-Banner
 
 # Check for updates as the first task
-Test-ForUpdate -currentVersion "1.3" -scriptName "Start-AIEventAnalyzer"
+Test-ForUpdate -currentVersion "1.4" -scriptName "Start-AIEventAnalyzer"
 
 $moduleName = "PSAOAI"
 if (Get-Module -ListAvailable -Name $moduleName) {
