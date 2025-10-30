@@ -1,6 +1,6 @@
 <#PSScriptInfo
 
-.VERSION 1.3
+.VERSION 1.5
 
 .GUID 4ff39349-66db-44eb-a12f-eb4249b0f24b
 
@@ -25,7 +25,9 @@
 .EXTERNALSCRIPTDEPENDENCIES
 
 .RELEASENOTES
-  UNPUBLISHED 1.4 - n/a
+  UNPUBLISHED 1.6 - n/a
+  1.5 - minor fixes.
+  1.4 - fix dot sourcing of `Start-AIEventAnalyzer`.
   1.3 - typos, Renamed Check-ForUpdate function to Test-ForUpdate, remove clearhost, add quit mode, detect whether the script is installed.
   1.2 - Enhanced Format-ContinuousText, Updated project GitHub link - new repo site, polish and smooth changes. 
   1.1 - add check update (#15), Stream response as default (not-Stream in generating prompts only), fix filtering events by serveritylevel.
@@ -1098,7 +1100,7 @@ function Show-Banner {
           /  \    | | | |____   _____ _ __ | |_   /  \   _ __   __ _| |_   _ _______ _ __ 
          / /\ \   | | |  __\ \ / / _ \ '_ \| __| / /\ \ | '_ \ / _` | | | | |_  / _ \ '__|
         / ____ \ _| |_| |___\ V /  __/ | | | |_ / ____ \| | | | (_| | | |_| |/ /  __/ |   
-       /_/    \_\_____|______\_/ \___|_| |_|\__/_/    \_\_| |_|\__,_|_|\__, /___\___|_|1.3   
+       /_/    \_\_____|______\_/ \___|_| |_|\__/_/    \_\_| |_|\__,_|_|\__, /___\___|_|1.5   
                                                                         __/ |             
                                                                        |___/              
                                                                   powered by PSAOAI Module
@@ -1144,12 +1146,12 @@ function Show-Banner {
     Write-Host "       To start type 'Start-AIEventAnalyzer'" -ForegroundColor White
   }
   else {
-    Write-Host "       Script not installed. Load it with the full path and then run it:" -ForegroundColor White
-    Write-Host ("       . `"{0}`"" -f $scriptPathHint) -ForegroundColor White
-    Write-Host "       Then run 'Start-AIEventAnalyzer'" -ForegroundColor White
+    Write-Host "       Script not installed. Load and start it with the full path and then run it:" -ForegroundColor White
+    Write-Host ("       & `"{0}`"" -f $scriptPathHint) -ForegroundColor White
+    #Write-Host "       Then run 'Start-AIEventAnalyzer'" -ForegroundColor White
     Write-Host ""
     Write-Host "       Tip: Install it from the PowerShell Gallery for easier use:" -ForegroundColor White
-    Write-Host "       Install-Script Start-AIEventAnalyzer" -ForegroundColor White
+    Write-Host "       Install-Script Start-AIEventAnalyzer -Force" -ForegroundColor White
   }
 
   Write-Host ""
@@ -1200,7 +1202,8 @@ function Test-ForUpdate {
       }
 
       $recommendedCommand = if ($scriptInstalled) { "Update-Script $scriptName -Force" } else { "Install-Script $scriptName -Force" }
-      Write-Host (" A new version ({0}) of {1} is available. You are currently using version {2}. Use: '{3}' `n`n" -f $latestVersion, $scriptName, $currentVersion, $recommendedCommand) -BackgroundColor DarkYellow -ForegroundColor Blue
+      Write-Host (" A new version ({0}) of {1} is available. You are currently using version {2}. Use: '{3}'" -f $latestVersion, $scriptName, $currentVersion, $recommendedCommand) -BackgroundColor DarkYellow -ForegroundColor Blue
+      write-Host ("`n`n")
     } 
   }
   else {
@@ -1212,11 +1215,12 @@ function Test-ForUpdate {
 Show-Banner
 
 # Check for updates as the first task
-Test-ForUpdate -currentVersion "1.4" -scriptName "Start-AIEventAnalyzer"
+Test-ForUpdate -currentVersion "1.5" -scriptName "Start-AIEventAnalyzer"
 
 $moduleName = "PSAOAI"
 if (Get-Module -ListAvailable -Name $moduleName) {
   [void](Import-module -name PSAOAI -Force)
+  Start-AIEventAnalyzer
 }
 else {
   Write-Host "You need to install '$moduleName' module. Use: 'Install-Module PSAOAI'"

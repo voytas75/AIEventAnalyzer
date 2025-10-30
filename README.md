@@ -23,6 +23,37 @@ When a new version is published, update your existing installation with:
 Update-Script Start-AIEventAnalyzer -Force
 ```
 
+### Running an installed script by name (PATH considerations)
+
+By design, when you run:
+
+```powershell
+Install-Script Start-AIEventAnalyzer
+```
+
+the script is placed into a folder such as:
+
+- `$HOME\Documents\WindowsPowerShell\Scripts` (or `$HOME\Documents\PowerShell\Scripts`) when using -Scope CurrentUser in Windows PowerShell. See [Install-Script (PowerShellGet) - Microsoft Learn](https://learn.microsoft.com/en-us/powershell/module/powershellget/install-script?view=powershellget-3.x).
+- However, that folder is not automatically added to the $env:PATH environment variable. As a result, simply typing the script name (for example, Start-AIEventAnalyzer) will not work unless the folder is already in PATH. See [PowerShell Forums discussion](https://forums.powershell.org/t/whats-the-purpose-of-documents-powershell-scripts-folder/15191).
+
+Steps to enable running the script by name (without extension):
+
+1) Check the actual install location:
+```powershell
+Get-InstalledScript Start-AIEventAnalyzer | Select-Object InstalledLocation
+```
+
+2) Either:
+- Add that folder to the $env:PATH so PowerShell can locate the script file by name:
+```powershell
+$env:PATH += ";<InstalledLocationFolder>"
+```
+To make it persistent, add the same line to your PowerShell profile file ($PROFILE).
+
+- Or run the script explicitly by full path:
+```powershell
+& "<InstalledLocationFolder>\Start-AIEventAnalyzer.ps1"
+```
 If you prefer to run the script directly after downloading it, dot-source it with the full path before calling `Start-AIEventAnalyzer`.
 
 For example, if you downloaded the script to `C:\Scripts\Start-AIEventAnalyzer.ps1`, open PowerShell in that folder and run:
