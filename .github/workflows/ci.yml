@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  powershell-script-static-smoke:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Parse script and verify entrypoint
+        shell: pwsh
+        run: |
+          $parseErrors = $null
+          $tokens = $null
+          [void][System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path './Start-AIEventAnalyzer.ps1'), [ref]$tokens, [ref]$parseErrors)
+
+          if ($parseErrors.Count -gt 0) {
+            $parseErrors | ForEach-Object { Write-Error $_.Message }
+            exit 1
+          }
+
+          $hasEntry = Select-String -Path ./Start-AIEventAnalyzer.ps1 -Pattern 'function\s+Start-AIEventAnalyzer\b' -Quiet
+          if (-not $hasEntry) {
+            throw 'Missing Start-AIEventAnalyzer function definition'
+          }
+
+          Write-Host 'Verified script parses and exposes Start-AIEventAnalyzer.'
+
+# Intentionally lightweight:
+# - this script triggers interactive behavior when dot-sourced/executed in a naive smoke test
+# - so the safe CI surface is static PowerShell parsing plus entrypoint verification
